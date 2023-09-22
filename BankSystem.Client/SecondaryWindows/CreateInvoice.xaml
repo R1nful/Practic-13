@@ -1,0 +1,64 @@
+﻿<Window x:Class="Practic_12.CreateInvoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practic_12"
+        xmlns:sys="clr-namespace:System;assembly=netstandard" 
+        mc:Ignorable="d"
+        Title="CreateInvoice" Height="165" Width="400" ResizeMode="NoResize">
+    <Window.Resources>
+        <sys:Double x:Key="MarginBtn">10</sys:Double>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="ClientNameTextBlock"
+                   Margin="10 0 0 0"
+                       Grid.Row="1"
+                       Text="Укажите клиента" />
+
+        <TextBlock x:Name="TypeInvoiseTextBlock"
+                   Margin="10 0 0 0"
+                   Grid.Row="2"
+                   Text="Тип счета" />
+
+        <ComboBox x:Name="ClientNameCB"
+                 Grid.Column="2"
+                 Grid.Row="1"
+                  SelectedIndex="0">
+            
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=LastName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <ComboBox x:Name="TypeInvoiseCB" 
+                 SelectedIndex="0" 
+                 Grid.Column="2"
+                 Grid.Row="2"
+                 />
+
+        <Button x:Name="CreateInvoiseBtn"
+                Margin="10"
+                Content="Создать"
+                Grid.Column="2"
+                Grid.Row="4" Click="CreateInvoiseBtn_Click"
+                />
+
+
+    </Grid>
+</Window>
