@@ -159,9 +159,20 @@ namespace BankSystem.Client.Main
         {
             if (ClientCB.SelectedItem != null && ClientInvoiceLV.SelectedItem != null)
             {
-                (ClientCB.SelectedItem as Client).RemoveInvoice(ClientInvoiceLV.SelectedItem as Invoice);
+                Invoice inv = ClientInvoiceLV.SelectedItem as Invoice;
+                
+                if(ClientInvoiceLV.Items.Count >= 2)
+                {
+                    Invoice inv2 = ClientInvoiceLV.Items[0] as Invoice;
 
-                ActionMessage?.Invoke("Счет закрыт");
+                    inv.TransferMoney(ref inv2, inv.Balance);
+                    ActionMessage?.Invoke($"Счет №{inv.Number} закрыт");
+                    (ClientCB.SelectedItem as Client).RemoveInvoice(inv);
+                }
+                else
+                {
+                    MessageBox.Show("Невозможно закрыть единственный счет с деньгами");
+                }
             }
         }
 
