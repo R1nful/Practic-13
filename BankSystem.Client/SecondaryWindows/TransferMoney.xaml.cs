@@ -54,12 +54,16 @@ namespace BankSystem.Client.SecondaryWindows
 
         private void BaseInvoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BaseInvoiceLV.ItemsSource = (BaseInvoice.SelectedItem as Client).ClientInvoices;
+            BaseInvoiceLV.ItemsSource = (BaseInvoice.SelectedItem as Client)?.ClientInvoices;
         }
 
         private void TransferInvoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TransferInvoiceLV.ItemsSource = (TransferInvoice.SelectedItem as Client).ClientInvoices;
+            TransferInvoiceLV.ItemsSource = (TransferInvoice.SelectedItem as Client)?.ClientInvoices;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
         }
     }
 }

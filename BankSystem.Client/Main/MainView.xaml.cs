@@ -1,5 +1,6 @@
 ﻿using BankSystem.Client.SecondaryWindows;
 using BankSystem.Model;
+using BankSystem.Exceptions;
 using Practic_12;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Security.Cryptography.Xml;
 
 namespace BankSystem.Client.Main
 {
@@ -132,19 +134,30 @@ namespace BankSystem.Client.Main
             {
                 if(ClientCB.SelectedItem != null)
                 {
-                    Client cl = (ClientCB.SelectedItem as Client);
-
-                    int clientIndex = ClientCB.SelectedIndex;
-
-                    if (clientIndex > 0)
-                        ClientCB.SelectedIndex = clientIndex - 1;
-                    else
+                    try
                     {
-                        ClientCB.SelectedIndex = -1;
-                        ClientDataLB.ItemsSource = null;
-                    }
+                        //if (ClientInvoiceLV.Items.Count != 0)
+                        //    throw new MyException();
 
-                    ClientRepository.Remove(cl);
+                        Client cl = (ClientCB.SelectedItem as Client);
+
+                        int clientCount = ClientCB.Items.Count - 1;
+
+                        if (clientCount > 0)
+                            ClientCB.SelectedIndex = clientCount - 1;
+                        else
+                        {
+                            ClientCB.SelectedIndex = -1;
+                            ClientDataLB.ItemsSource = null;
+                        }
+
+                        ClientRepository.Remove(cl);
+                    }
+                    catch(MyException) 
+                    {
+                        MessageBox.Show("У клиента еще есть не закрытые счета");
+                    }
+                    
                 }
             }
             else
@@ -165,11 +178,19 @@ namespace BankSystem.Client.Main
             {
                 Invoice inv = ClientInvoiceLV.SelectedItem as Invoice;
                 
-                if(ClientInvoiceLV.Items.Count >= 2)
+                if(ClientInvoiceLV.Items.Count > 1)
                 {
-                    Invoice inv2 = ClientInvoiceLV.Items[0] as Invoice;
+                    decimal invBalance = inv.Balance;
 
-                    inv.TransferMoney(ref inv2, inv.Balance);
+                    ActionMessage?.Invoke($"Счет №{inv.Number} закрыт");
+                    (ClientCB.SelectedItem as Client).RemoveInvoice(inv);
+
+                    Invoice firstInv = ClientInvoiceLV.Items[0] as Invoice;
+                    firstInv.AddBalanse(invBalance);
+
+                }
+                else if ((ClientInvoiceLV.Items.Count == 1 && ((Invoice)ClientInvoiceLV.Items[0]).Balance == 0))
+                {
                     ActionMessage?.Invoke($"Счет №{inv.Number} закрыт");
                     (ClientCB.SelectedItem as Client).RemoveInvoice(inv);
                 }
@@ -194,6 +215,11 @@ namespace BankSystem.Client.Main
         {
             TransferMoney mon = new TransferMoney(ActionMessage);
             mon.ShowDialog();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
     }
 }

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankSystem.Exceptions\BankSystem.Exceptions.csproj" />
     <ProjectReference Include="..\BankSystem.Model\BankSystem.Model.csproj" />
   </ItemGroup>
 
