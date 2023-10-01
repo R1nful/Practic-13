@@ -5,7 +5,6 @@ using System.Transactions;
 using System.Windows;
 namespace BankSystem.Model
 {
-
     public class Invoice : INotifyPropertyChanged
     {
         static long num;
@@ -61,8 +60,11 @@ namespace BankSystem.Model
         /// </summary>
         /// <param name="trensferInvoice">Счет для перевода</param>
         /// <param name="trensferMoney">Сумма перевода</param>
-        public void TransferMoney(ref Invoice trensferInvoice, decimal trensferMoney)
+        public short TransferMoney(ref Invoice trensferInvoice, decimal trensferMoney)
         {
+            short result = 0;
+            short resultDeficiencyMoney = 1;
+            short resultInvoiceClose = 2;
             if (isOpen && trensferInvoice.IsOpen)
             {
                 if (balance >= trensferMoney)
@@ -70,18 +72,18 @@ namespace BankSystem.Model
                     balance -= trensferMoney;
                     trensferInvoice.AddBalanse(trensferMoney);
                     OnPropertyChanged("Balance");
+                    return result;
                 }
                 else
                 {
-                    MessageBox.Show("Перевод невозможен. Недостаточно Средств");
+                    return resultDeficiencyMoney;
                 }
             }
             else
             {
-                MessageBox.Show("Перевод невозможен. Счет закрыт");
+                return resultInvoiceClose;
             }
         }
-
 
         /// <summary>
         /// Добавляет заданное количество денег на баланс

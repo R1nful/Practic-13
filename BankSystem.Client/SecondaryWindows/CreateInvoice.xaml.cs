@@ -40,7 +40,7 @@ namespace Practic_12
 
             client.AddInvoice(invoice);
 
-            ActionMessage?.Invoke("Открыт новый стчет");
+            ActionMessage?.Invoke($"Открыт новый стчет с номером №{invoice.Number}");
 
             this.Close();
         }

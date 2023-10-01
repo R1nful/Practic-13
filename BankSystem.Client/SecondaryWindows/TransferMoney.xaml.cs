@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using BankSystem.Model;
 
 namespace BankSystem.Client.SecondaryWindows
@@ -32,9 +33,21 @@ namespace BankSystem.Client.SecondaryWindows
 
                     Invoice trs = (Invoice)BaseInvoiceLV.SelectedItem;
 
-                    trs.TransferMoney(ref transfer, sum);
-
-                    ActionMessage?.Invoke($"Переведено {sum}$ с счета №{transfer.Number} на счет №{trs.Number}");
+                    switch (trs.TransferMoney(ref transfer, sum))
+                    {
+                        case 0:
+                            ActionMessage?.Invoke($"Переведено {sum}$ с счета №{transfer.Number} на счет №{trs.Number}");
+                            break;
+                        case 1:
+                            MessageBox.Show("Перевод невозможен. Недостаточно Средств");
+                            break;
+                        case 2:
+                            MessageBox.Show("Перевод невозможен. Счет закрыт");
+                            break;
+                        default:
+                            MessageBox.Show("Ошибка перевод невозможен.");
+                            break;
+                    }
                 }
             }
         }

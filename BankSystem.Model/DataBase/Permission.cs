@@ -101,12 +101,6 @@ namespace BankSystem.Model
                     accessAnswer = newError;
                     break;
             }
-
-            if (accessAnswer == rightChange)
-            {
-               //Сохранение изменений в файл
-            }
-
             return accessAnswer;
         }
 

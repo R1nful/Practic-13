@@ -73,12 +73,16 @@ namespace BankSystem.Client.Main
         {
             if (ClientDataLB.SelectedItem != null && ClientDataLB.SelectedItem.ToString() != ChangeClientFieldTB.Text)
             {
-                Permission.ChangeClientField(bnkWr, ref client, (Active)ClientDataLB.SelectedIndex, ChangeClientFieldTB.Text);
-
-                ActionMessage?.Invoke($"{ClientDataLB.SelectedItem} изменено на {ChangeClientFieldTB.Text}");
-                
+                switch (Permission.ChangeClientField(bnkWr, ref client, (Active)ClientDataLB.SelectedIndex, ChangeClientFieldTB.Text))
+                {
+                    case 0:
+                        ActionMessage?.Invoke($"{ClientDataLB.SelectedItem} изменено на {ChangeClientFieldTB.Text}");
+                        break;
+                    default:
+                        MessageBox.Show("Ошибка изменения");
+                        break;
+                }
                 ChangeClientDataList();
-
             }
         }
 
