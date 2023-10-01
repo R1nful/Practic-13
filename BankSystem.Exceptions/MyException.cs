@@ -6,20 +6,9 @@ namespace BankSystem.Exceptions
 {
     public class MyException : Exception
     {
+        public override string Message => "У клиента есть незакрытые счета";
         public MyException()
         {
-
-        }
-        public MyException(string msg, ItemCollection IncoiceList) : base(msg)
-        {
-            if (IncoiceList != null)
-            {
-                foreach(Invoice inv in IncoiceList)
-                {
-                    if (inv.Balance > 0)
-                        throw new Exception("У клиента еще есть не 0 счета");
-                }
-            }
         }
     }
 }

@@ -136,8 +136,8 @@ namespace BankSystem.Client.Main
                 {
                     try
                     {
-                        //if (ClientInvoiceLV.Items.Count != 0)
-                        //    throw new MyException();
+                        if (ClientInvoiceLV.Items.Count != 0)
+                            throw new MyException();
 
                         Client cl = (ClientCB.SelectedItem as Client);
 
@@ -153,9 +153,9 @@ namespace BankSystem.Client.Main
 
                         ClientRepository.Remove(cl);
                     }
-                    catch(MyException) 
+                    catch(MyException ex) 
                     {
-                        MessageBox.Show("У клиента еще есть не закрытые счета");
+                        MessageBox.Show(ex.Message);
                     }
                     
                 }

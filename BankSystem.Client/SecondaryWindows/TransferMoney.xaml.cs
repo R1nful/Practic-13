@@ -61,9 +61,5 @@ namespace BankSystem.Client.SecondaryWindows
         {
             TransferInvoiceLV.ItemsSource = (TransferInvoice.SelectedItem as Client)?.ClientInvoices;
         }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-        }
     }
 }
